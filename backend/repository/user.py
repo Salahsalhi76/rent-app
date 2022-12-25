@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 from fastapi import Depends, HTTPException, status
-from blog import models, schemas
+from backend import models, schemas
 from passlib.context import CryptContext
-from blog.database import get_db
+from backend.database import get_db
 
 
 

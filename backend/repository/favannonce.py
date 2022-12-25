@@ -1,7 +1,7 @@
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from blog import models
-from blog.database import get_db
+from backend import models
+from backend.database import get_db
 
 
 def add_fav(id, db: Session = Depends(get_db)):

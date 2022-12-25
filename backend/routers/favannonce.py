@@ -1,7 +1,8 @@
 from fastapi import Depends, HTTPException, status, APIRouter
 from sqlalchemy.orm import Session
-from blog import models, schemas
-from blog.database import get_db
+from backend import models, schemas
+from backend.database import get_db
+from backend.oauth2 import get_current_user
 from ..repository import favannonce
 
 router = APIRouter(
@@ -10,13 +11,13 @@ router = APIRouter(
 )
 
 @router.post('/{id}', status_code=status.HTTP_201_CREATED)
-def add_favoris(id, db: Session = Depends(get_db)):
+def add_favoris(id, db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_user)):
     return favannonce.add_fav(id, db)
 
 @router.get('/')
-def get_favoris(db: Session = Depends(get_db)):
+def get_favoris(db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_user)):
     return favannonce.get_fav(db)
 
 @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
-def delete_Fav(id, db: Session = Depends(get_db)):
+def delete_Fav(id, db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_user)):
     return favannonce.delete_fav(id, db)
