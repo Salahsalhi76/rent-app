@@ -1,10 +1,10 @@
 from .database import Base
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 
 class Annonce(Base):
-    __tablename__ = 'AnnImob'
+    __tablename__ = 'annonces'
 
-    email = Column(String)
     id = Column(Integer, primary_key = True, index= True)
     categ = Column(String)
     type = Column(String)
@@ -13,11 +13,13 @@ class Annonce(Base):
     prix = Column(Integer)
     contact = Column(String)
     localisation = Column(String)
+    user_id = Column(Integer, ForeignKey('users.id'))
+
+    owner = relationship("User", back_populates= "annonces")
 
 class AnnonceFavoris(Base):
     __tablename__ = 'AnnImob_Fav'
     
-    email = Column(String)
     id = Column(Integer, primary_key = True, index= True)
     categ = Column(String)
     type = Column(String)
@@ -26,4 +28,14 @@ class AnnonceFavoris(Base):
     prix = Column(Integer)
     contact = Column(String)
     localisation = Column(String)
+
+class User(Base):
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key = True, index= True)
+    name = Column(String)
+    email = Column(String)
+    password = Column(String)
+
+    annonces = relationship("Annonce", back_populates= "owner")
     
