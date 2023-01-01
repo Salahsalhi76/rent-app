@@ -2,20 +2,30 @@ from typing import Optional
 from pydantic import BaseModel
 
 class AnnonceBase(BaseModel):
-    categ: str
+    uid: str
+    nom_prenom : str
+    user_adresse : str
+    user_email: str
+    user_phone: str
+    publish_date: str
+    commune : str
+    wilaya: str
+    image: str
     type: str
-    surface: int
+    sqft: int
+    nb_bath: int
+    nb_bed: int
+    title: str
     descr: str
     prix: int
-    contact: str
-    localisation: str
-    
+
 class Annonce(AnnonceBase):
     class Config():
         orm_mode = True    
 
 class showuser(BaseModel):
     name:str
+    uid: str
     email:str
     annonces: list[Annonce] = []
     class Config():
@@ -23,19 +33,26 @@ class showuser(BaseModel):
 
 class showuserwithoutann(BaseModel):
     name:str
+    uid:str
     email:str
     class Config():
         orm_mode = True
 
 class showAnnonce(BaseModel):
-    categ: str
+    nom_prenom : str
+    user_adresse : str
+    user_email: str
+    user_phone: str
+    publish_date: str
+    commune : str
+    wilaya: str
+    image: str
     type: str
-    surface: int
+    sqft: int
+    nb_bath: int
+    nb_bed: int
     descr: str
     prix: int
-    contact: str
-    localisation: str
-    owner: showuserwithoutann
     class Config():
         orm_mode = True
 

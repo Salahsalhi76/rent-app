@@ -12,6 +12,7 @@ pwd_cxt = CryptContext(schemes=["bcrypt"], deprecated= "auto",)
 def create_user(request: schemas.User, db: Session = Depends(get_db)):
     hashedPassword = pwd_cxt.hash(request.password)  
     new_user = models.User(
+        uid = f"#{request.name}",
         email = request.email,
         name = request.name,
         password = hashedPassword

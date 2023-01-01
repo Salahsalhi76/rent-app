@@ -9,14 +9,23 @@ def get_all(db: Session = Depends(get_db)):
 
 def create(ann: schemas.Annonce, db: Session = Depends(get_db)):
     new_annonce = models.Annonce(
-        categ = ann.categ,
+
+        title = ann.title,
+        nom_prenom = ann.nom_prenom,
+        user_adresse = ann.user_adresse,
+        user_email = ann.user_email,
+        user_phone = ann.user_phone,
         type = ann.type,
-        surface = ann.surface,
+        publish_date = ann.publish_date,
+        commune = ann.commune,
+        wilaya = ann.wilaya,
+        image = ann.image,
+        sqft = ann.sqft,
+        nb_bath = ann.nb_bath,
+        nb_bed = ann.nb_bed,
         descr = ann.descr,
         prix = ann.prix,
-        contact = ann.contact,
-        localisation = ann.localisation,
-        user_id = 1
+        uid = ann.uid,
     )
     db.add(new_annonce)
     db.commit()
@@ -32,9 +41,9 @@ def delete(id: int, db: Session = Depends(get_db)):
     db.commit()
     return 'deleted succefully'
 
-def get_by_userid(userID:int, db: Session = Depends(get_db)):
-    annonces = db.query(models.Annonce).filter(models.Annonce.user_id == userID).all()
+def get_by_userid(uid:str, db: Session = Depends(get_db)):
+    annonces = db.query(models.Annonce).filter(models.Annonce.uid == uid).all()
     if annonces == []:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"ther is no annonces with userID = {userID}")
+                            detail=f"ther is no annonces")
     return annonces

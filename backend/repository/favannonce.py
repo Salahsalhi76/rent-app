@@ -7,13 +7,21 @@ from backend.database import get_db
 def add_fav(id, db: Session = Depends(get_db)):
     ann = db.query(models.Annonce).filter(models.Annonce.id == id).first()
     new_annonce = models.AnnonceFavoris(
-        categ = ann.categ,
+        uid = "current user",
+        nom_prenom = ann.nom_prenom,
+        user_adresse = ann.user_adresse,
+        user_email = ann.user_email,
+        user_phone = ann.user_phone,
         type = ann.type,
-        surface = ann.surface,
+        publish_date = ann.publish_date,
+        commune = ann.commune,
+        wilaya = ann.wilaya,
+        image = ann.image,
+        sqft = ann.sqft,
+        nb_bath = ann.nb_bath,
+        nb_bed = ann.nb_bed,
         descr = ann.descr,
         prix = ann.prix,
-        contact = ann.contact,
-        localisation = ann.localisation
     )
     db.add(new_annonce)
     db.commit()

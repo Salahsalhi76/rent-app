@@ -29,7 +29,7 @@ function App() {
       document.getElementById("signInDiv"),
       { theme: "outline", size: "medium"}
     )
-    /*google.accounts.id.prompt();*/
+    google.accounts.id.prompt();
   }, []);
 
   return (

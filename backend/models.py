@@ -6,33 +6,53 @@ class Annonce(Base):
     __tablename__ = 'annonces'
 
     id = Column(Integer, primary_key = True, index= True)
-    categ = Column(String)
+    nom_prenom = Column(String)
+    user_adresse = Column(String)
+    user_email = Column(String)
+    user_phone = Column(String)
     type = Column(String)
-    surface = Column(Integer)
+    publish_date = Column(String)
+    commune = Column(String)
+    wilaya = Column(String)
+    image = Column(String)
+    sqft = Column(Integer)
+    nb_bed = Column(Integer)
+    nb_bath = Column(Integer)
+    type = Column(String)
     descr = Column(String)
     prix = Column(Integer)
-    contact = Column(String)
-    localisation = Column(String)
-    user_id = Column(Integer, ForeignKey('users.id'))
+    title = Column(String)
+    uid = Column(Integer, ForeignKey('users.uid'))
 
     owner = relationship("User", back_populates= "annonces")
 
 class AnnonceFavoris(Base):
-    __tablename__ = 'AnnImob_Fav'
+    __tablename__ = 'fav'
     
     id = Column(Integer, primary_key = True, index= True)
-    categ = Column(String)
+    uid = Column(String)
+    nom_prenom = Column(String)
+    user_adresse = Column(String)
+    user_email = Column(String)
+    user_phone = Column(String)
     type = Column(String)
-    surface = Column(Integer)
+    publish_date = Column(String)
+    commune = Column(String)
+    wilaya = Column(String)
+    image = Column(String)
+    sqft = Column(Integer)
+    nb_bed = Column(Integer)
+    nb_bath = Column(Integer)
+    type = Column(String)
     descr = Column(String)
     prix = Column(Integer)
-    contact = Column(String)
-    localisation = Column(String)
+    title = Column(String)
 
 class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key = True, index= True)
+    uid = Column(String)
     name = Column(String)
     email = Column(String)
     password = Column(String)
