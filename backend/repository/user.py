@@ -10,13 +10,18 @@ pwd_cxt = CryptContext(schemes=["bcrypt"], deprecated= "auto",)
 
 
 def create_user(request: schemas.User, db: Session = Depends(get_db)):
+    emails = db.query(models.User.email).all()
+    for i in range(len(emails)):
+        if request.email in emails[i]:
+            raise HTTPException(status_code=status.HTTP_303_SEE_OTHER,
+                            detail=f"Email already used")
     hashedPassword = pwd_cxt.hash(request.password)  
     new_user = models.User(
-        uid = f"#{request.name}",
-        email = request.email,
-        name = request.name,
-        password = hashedPassword
-    )
+            uid = f"#{request.name}",
+            email = request.email,
+            name = request.name,
+            password = hashedPassword
+            )
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
