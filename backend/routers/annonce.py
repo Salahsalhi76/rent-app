@@ -12,18 +12,18 @@ router = APIRouter(
     tags = ['Annonces']
 )
 
-@router.get('/',response_model=List[schemas.showAnnonce])
+@router.get('/get',response_model=List[schemas.showAnnonce])
 def get_annonce(db: Session = Depends(get_db)):
     return annonce.get_all(db)
 
-@router.post('/', status_code=status.HTTP_201_CREATED)
-def add_annonce(ann: schemas.Annonce, db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_user)):
+@router.post('/add/ann', status_code=status.HTTP_201_CREATED)
+def add_annonce(ann: schemas.AnnonceBase, db: Session = Depends(get_db)):
     return annonce.create(ann, db)
 
 @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
-def delete(id, db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_user)):
+def delete(id, db: Session = Depends(get_db)):
     return annonce.delete(id, db)
 
 @router.get('/{uid}',response_model=List[schemas.Annonce])
-def get_selfannonces(uid:str, db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_user)):
+def get_selfannonces(uid:str, db: Session = Depends(get_db)):
     return annonce.get_by_userid(uid, db)
