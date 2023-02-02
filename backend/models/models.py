@@ -1,5 +1,5 @@
-from .database import Base
-from sqlalchemy import Column, Integer, String, ForeignKey, ARRAY
+from ..database import Base
+from sqlalchemy import Column, Integer, String, ForeignKey, ARRAY, Boolean
 from sqlalchemy.orm import relationship
 
 class Annonce(Base):
@@ -11,14 +11,13 @@ class Annonce(Base):
     user_email = Column(String)
     user_phone = Column(String)
     type = Column(String)
-    # publish_date = Column(String)
+    publish_date = Column(String)
     commune = Column(String)
     wilaya = Column(String)
-    # image = Column(ARRAY(String))
+    image = Column(ARRAY(String))
     sqft = Column(Integer)
     nb_bed = Column(Integer)
     nb_bath = Column(Integer)
-    type = Column(String)
     descr = Column(String)
     prix = Column(Integer)
     title = Column(String)
@@ -43,7 +42,6 @@ class AnnonceFavoris(Base):
     sqft = Column(Integer)
     nb_bed = Column(Integer)
     nb_bath = Column(Integer)
-    type = Column(String)
     descr = Column(String)
     prix = Column(Integer)
     title = Column(String)
@@ -56,6 +54,12 @@ class User(Base):
     name = Column(String)
     email = Column(String)
     password = Column(String)
+    verified = Column(Boolean , default = False)
+    onborded = Column(Boolean , default = False)
+    provider = Column(Boolean , default = False)
+    avatar = Column(String)
 
     annonces = relationship("Annonce", back_populates= "owner")
+
+    
     

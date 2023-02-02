@@ -1,7 +1,7 @@
 from datetime import timedelta
 from fastapi import APIRouter, Depends, HTTPException, status
 from passlib.context import CryptContext
-from backend import models
+from backend.models import models
 from backend.token import ACCESS_TOKEN_EXPIRE_MINUTES, create_access_token
 from .. import schemas, database, token
 from sqlalchemy.orm import Session

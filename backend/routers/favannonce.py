@@ -1,7 +1,8 @@
 from fastapi import Depends, HTTPException, status, APIRouter
 from sqlalchemy.orm import Session
-from backend import models, schemas
+from backend import schemas
 from backend.database import get_db
+from backend.models import models
 from backend.oauth2 import get_current_user
 from ..repository import favannonce
 

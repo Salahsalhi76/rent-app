@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, status, HTTPException
+from ..models import models
 from backend.database import get_db
 from backend.oauth2 import get_current_user
-from .. import schemas, models
+from .. import schemas
 from typing import List
 from sqlalchemy.orm import Session
 from ..repository import annonce

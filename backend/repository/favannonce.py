@@ -1,6 +1,6 @@
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from backend import models
+from backend.models import models
 from backend.database import get_db
 
 

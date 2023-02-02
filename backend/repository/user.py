@@ -1,8 +1,9 @@
 from sqlalchemy.orm import Session
 from fastapi import Depends, HTTPException, status
-from backend import models, schemas
+from backend import schemas
 from passlib.context import CryptContext
 from backend.database import get_db
+from backend.models import models
 
 
 
@@ -15,12 +16,16 @@ def create_user(request: schemas.User, db: Session = Depends(get_db)):
         if request.email in emails[i]:
             raise HTTPException(status_code=status.HTTP_303_SEE_OTHER,
                             detail=f"Email already used")
-    hashedPassword = pwd_cxt.hash(request.password)  
+    # hashedPassword = pwd_cxt.hash(request.password)  
     new_user = models.User(
             uid = f"#{request.name}",
             email = request.email,
             name = request.name,
-            password = hashedPassword
+            # password = hashedPassword,
+            # verified = True,
+            onborded = True,
+            provider = True,
+            avatar = request.avatar,
             )
     db.add(new_user)
     db.commit()

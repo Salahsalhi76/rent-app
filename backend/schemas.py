@@ -7,10 +7,10 @@ class AnnonceBase(BaseModel):
     user_adresse : str
     user_email: str
     user_phone: str
-    # publish_date: str
+    publish_date: str
     commune : str
     wilaya: str
-    # image: str
+    image: str
     type: str
     sqft: int
     nb_bath: int
@@ -60,7 +60,8 @@ class showAnnonce(BaseModel):
 class User(BaseModel):
     name: str
     email: str
-    password: str
+    # password: str
+    avatar: str
 
 class login(BaseModel):
     username: str

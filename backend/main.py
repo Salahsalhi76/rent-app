@@ -1,7 +1,12 @@
-from fastapi import FastAPI
-from . import schemas, models
+from fastapi import FastAPI, Request
+from .models import models
+from . import schemas
 from .database import engine
-from .routers import annonce, user, favannonce, authentification
+from .routers import annonce, googleauth, user, favannonce, authentification
+from fastapi_jwt_auth.exceptions import AuthJWTException
+from .settings import Settings
+from fastapi.responses import JSONResponse
+from fastapi_jwt_auth import AuthJWT
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -21,6 +26,15 @@ app.include_router(annonce.router)
 app.include_router(user.router)
 app.include_router(favannonce.router)
 app.include_router(authentification.router)
+app.include_router(googleauth.router)
+
+@app.exception_handler(AuthJWTException)
+def authjwt_exception_handler(request: Request, exc: AuthJWTException):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={'detail': exc.message}
+    )
+
 
 
 

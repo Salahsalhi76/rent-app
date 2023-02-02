@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
-from backend import models, schemas
+from backend import schemas
 from fastapi import Depends, HTTPException, status
 from backend.database import get_db
+from backend.models import models
 
 def get_all(db: Session = Depends(get_db)):
     annonces = db.query(models.Annonce).all()
@@ -9,23 +10,22 @@ def get_all(db: Session = Depends(get_db)):
 
 def create(ann: schemas.AnnonceBase, db: Session = Depends(get_db)):
     new_annonce = models.Annonce(
-
         title = ann.title,
         nom_prenom = ann.nom_prenom,
         user_adresse = ann.user_adresse,
         user_email = ann.user_email,
         user_phone = ann.user_phone,
         type = ann.type,
-        # publish_date = ann.publish_date,
+        publish_date = ann.publish_date,
         commune = ann.commune,
         wilaya = ann.wilaya,
-        # image = ann.image,
+        image = ann.image,
         sqft = ann.sqft,
         nb_bath = ann.nb_bath,
         nb_bed = ann.nb_bed,
         descr = ann.descr,
         prix = ann.prix,
-        # uid = ann.uid,
+        uid = ann.uid,
     )
     db.add(new_annonce)
     db.commit()
