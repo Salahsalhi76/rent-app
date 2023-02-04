@@ -1,3 +1,4 @@
+from http import HTTPStatus
 from fastapi import FastAPI, exceptions, APIRouter, status, Depends
 from fastapi.responses import JSONResponse
 from fastapi_jwt_auth import AuthJWT
@@ -29,8 +30,6 @@ class DevLoginRequest(BaseModel):
 
 class LoginRequest(BaseModel):
     id_token: str
-    access_token: str
-
 
 url = settings.GOOGLE_URL
 url = url.replace("google#", "google?")
@@ -50,10 +49,10 @@ async def google_login(req: LoginRequest if settings.APP_ENV != 'dev' else DevLo
     if settings.APP_ENV == 'dev':
         data = parse_qs(urlparse(url).query)
         google_id_token = data['id_token'][0]
-        google_access_token = data['access_token'][0]
+        # google_access_token = data['access_token'][0]
     else:
         google_id_token = req.id_token
-        google_access_token = req.access_token
+        # google_access_token = req.access_token
 
     try:
         auth_info = verify_oauth2_token(google_id_token, requests.Request())
@@ -62,7 +61,7 @@ async def google_login(req: LoginRequest if settings.APP_ENV != 'dev' else DevLo
 
     user = await db.query(User).filter(User.email == auth_info['email']).first()
     if not user:
-        profile = await request(f'https://www.googleapis.com/oauth2/v1/userinfo?access_token={google_access_token}')
+        profile = await request(f'https://www.googleapis.com/oauth2/v1/userinfo?access_token={google_id_token}')
         if not profile.get('verified_email'):
             raise exceptions.RequestValidationError({'message': 'email not verified'})
         new_user = User(
@@ -73,13 +72,6 @@ async def google_login(req: LoginRequest if settings.APP_ENV != 'dev' else DevLo
             avatar=profile['picture']
         )
         USER.create_user(new_user, db)
-    sign_data = {
-        'id': user.id,
-        'email': user.email,
-        'onboarded': user.onboarded,
-        'avatar': user.avatar,
-        'username': user.name
-    }
 
     # Create Tokens
     access_token = Authorize.create_access_token(subject=user.email)

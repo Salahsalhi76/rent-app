@@ -19,7 +19,7 @@ def create(ann: schemas.AnnonceBase, db: Session = Depends(get_db)):
         publish_date = ann.publish_date,
         commune = ann.commune,
         wilaya = ann.wilaya,
-        image = ann.image,
+        # image = ann.image,
         sqft = ann.sqft,
         nb_bath = ann.nb_bath,
         nb_bed = ann.nb_bed,
@@ -29,6 +29,14 @@ def create(ann: schemas.AnnonceBase, db: Session = Depends(get_db)):
     )
     db.add(new_annonce)
     db.commit()
+    for i in ann.images:
+        new_image = models.Images(
+            annid = new_annonce.id,
+            image = i,
+            # ownerr = new_annonce,
+        )
+        db.add(new_image)
+        db.commit()
     db.refresh(new_annonce)
     return new_annonce
 

@@ -10,7 +10,7 @@ class AnnonceBase(BaseModel):
     publish_date: str
     commune : str
     wilaya: str
-    image: str
+    images: str
     type: str
     sqft: int
     nb_bath: int

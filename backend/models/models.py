@@ -14,7 +14,7 @@ class Annonce(Base):
     publish_date = Column(String)
     commune = Column(String)
     wilaya = Column(String)
-    image = Column(ARRAY(String))
+    image = Column(String)
     sqft = Column(Integer)
     nb_bed = Column(Integer)
     nb_bath = Column(Integer)
@@ -24,27 +24,28 @@ class Annonce(Base):
     uid = Column(Integer, ForeignKey('users.uid'))
 
     owner = relationship("User", back_populates= "annonces")
+    # images = relationship("Images", back_populates= "ownerr")
 
-class AnnonceFavoris(Base):
-    __tablename__ = 'fav'
+# class AnnonceFavoris(Base):
+#     __tablename__ = 'fav'
     
-    id = Column(Integer, primary_key = True, index= True)
-    uid = Column(String)
-    nom_prenom = Column(String)
-    user_adresse = Column(String)
-    user_email = Column(String)
-    user_phone = Column(String)
-    type = Column(String)
-    publish_date = Column(String)
-    commune = Column(String)
-    wilaya = Column(String)
-    image = Column()
-    sqft = Column(Integer)
-    nb_bed = Column(Integer)
-    nb_bath = Column(Integer)
-    descr = Column(String)
-    prix = Column(Integer)
-    title = Column(String)
+#     id = Column(Integer, primary_key = True, index= True)
+#     uid = Column(String)
+#     nom_prenom = Column(String)
+#     user_adresse = Column(String)
+#     user_email = Column(String)
+#     user_phone = Column(String)
+#     type = Column(String)
+#     publish_date = Column(String)
+#     commune = Column(String)
+#     wilaya = Column(String)
+#     image = Column(String)
+#     sqft = Column(Integer)
+#     nb_bed = Column(Integer)
+#     nb_bath = Column(Integer)
+#     descr = Column(String)
+#     prix = Column(Integer)
+#     title = Column(String)
 
 class User(Base):
     __tablename__ = 'users'
@@ -61,5 +62,13 @@ class User(Base):
 
     annonces = relationship("Annonce", back_populates= "owner")
 
-    
+class Images(Base):
+    __tablename__ = "images"
+
+    id = Column(Integer, primary_key = True, index= True)
+    annid = Column(Integer)
+    image = Column(String)
+
+    # ownerr = relationship("Annonce", back_populates= "images")
+
     
