@@ -14,7 +14,7 @@ class Annonce(Base):
     publish_date = Column(String)
     commune = Column(String)
     wilaya = Column(String)
-    image = Column(String)
+    # image = Column(String)
     sqft = Column(Integer)
     nb_bed = Column(Integer)
     nb_bath = Column(Integer)
@@ -24,7 +24,7 @@ class Annonce(Base):
     uid = Column(Integer, ForeignKey('users.uid'))
 
     owner = relationship("User", back_populates= "annonces")
-    # images = relationship("Images", back_populates= "ownerr")
+    images = relationship("Images", back_populates= "annonce")
 
 # class AnnonceFavoris(Base):
 #     __tablename__ = 'fav'
@@ -66,9 +66,9 @@ class Images(Base):
     __tablename__ = "images"
 
     id = Column(Integer, primary_key = True, index= True)
-    annid = Column(Integer)
+    annid = Column(Integer, ForeignKey('annonces.id'))
     image = Column(String)
 
-    # ownerr = relationship("Annonce", back_populates= "images")
+    annonce = relationship("Annonce", back_populates= "images")
 
     

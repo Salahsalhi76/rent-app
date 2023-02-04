@@ -29,7 +29,7 @@ def create(ann: schemas.AnnonceBase, db: Session = Depends(get_db)):
     )
     db.add(new_annonce)
     db.commit()
-    for i in ann.images:
+    for i in ann.image:
         new_image = models.Images(
             annid = new_annonce.id,
             image = i,
@@ -49,9 +49,9 @@ def delete(id: int, db: Session = Depends(get_db)):
     db.commit()
     return 'deleted succefully'
 
-# def get_by_userid(uid:str, db: Session = Depends(get_db)):
-#     annonces = db.query(models.Annonce).filter(models.Annonce.uid == uid).all()
-#     if annonces == []:
-#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-#                             detail=f"ther is no annonces")
-#     return annonces
+def get_by_userid(uid:str, db: Session = Depends(get_db)):
+    annonces = db.query(models.Annonce).filter(models.Annonce.uid == uid).all()
+    if annonces == []:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"ther is no annonces")
+    return annonces
